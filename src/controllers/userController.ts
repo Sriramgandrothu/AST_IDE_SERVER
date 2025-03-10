@@ -104,6 +104,7 @@ export const login = async (req: Request, res: Response) => {
       email: existingUser.email,
       savedCodes: existingUser.savedCodes,
       isAdmin: existingUser.isAdmin,
+      token: jwtToken,
     });
   } catch (error) {
     return res.status(500).send({ message: "Error logging in!", error: error });
