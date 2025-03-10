@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userDetails = exports.logout = exports.login = exports.signup = void 0;
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = require("../models/User");
 const signup = async (req, res) => {
@@ -18,13 +17,14 @@ const signup = async (req, res) => {
         if (!usernameRegex.test(username)) {
             return res
                 .status(400)
-                .send({ message: "Some characters are not allowed(Spaces)!" });
+                .send({ message: "Some characters are not allowed!" });
         }
-        const salt = await bcrypt_1.default.genSalt();
-        const hashedPassword = await bcrypt_1.default.hash(password, salt);
+        // const salt = await bcrypt.genSalt();
+        // const hashedPassword = await bcrypt.hash(password, salt);
         const user = await User_1.User.create({
             email: email,
-            password: hashedPassword,
+            // password: hashedPassword,
+            password: password,
             username: username,
         });
         const jwtToken = jsonwebtoken_1.default.sign({
@@ -44,6 +44,7 @@ const signup = async (req, res) => {
             picture: user.picture,
             email: user.email,
             savedCodes: user.savedCodes,
+            isAdmin: user.isAdmin,
         });
     }
     catch (error) {
@@ -64,9 +65,13 @@ const login = async (req, res) => {
         if (!existingUser) {
             return res.status(400).send({ message: "User not found" });
         }
-        const passwordMatched = await bcrypt_1.default.compare(password, existingUser.password);
-        if (!passwordMatched) {
-            return res.status(400).send({ message: "wrong password" });
+        // const passwordMatched = await bcrypt.compare(
+        //   password,
+        //   existingUser.password
+        // );
+        // if (!passwordMatched) {
+        if (password !== existingUser.password) {
+            return res.status(400).send({ message: "Wrong password" });
         }
         const jwtToken = jsonwebtoken_1.default.sign({
             _id: existingUser._id,
@@ -85,17 +90,19 @@ const login = async (req, res) => {
             picture: existingUser.picture,
             email: existingUser.email,
             savedCodes: existingUser.savedCodes,
+            isAdmin: existingUser.isAdmin,
+            token: jwtToken,
         });
     }
     catch (error) {
-        return res.status(500).send({ message: "Error log in!", error: error });
+        return res.status(500).send({ message: "Error logging in!", error: error });
     }
 };
 exports.login = login;
 const logout = async (req, res) => {
     try {
         res.clearCookie("token");
-        return res.status(200).send({ message: "logged out successfully!" });
+        return res.status(200).send({ message: "Logged out successfully!" });
     }
     catch (error) {
         return res.status(500).send({ message: "Error logging out!", error });
@@ -114,6 +121,7 @@ const userDetails = async (req, res) => {
             picture: user.picture,
             email: user.email,
             savedCodes: user.savedCodes,
+            isAdmin: user.isAdmin,
         });
     }
     catch (error) {

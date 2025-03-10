@@ -10,7 +10,7 @@ export const verifyToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.cookies.token;
+  const token = req.headers.token as string;
 
   if (!token) {
     return res.status(401).send({ message: "You are unauthorized." });
