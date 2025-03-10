@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "https://ast-ide.vercel.app/",
+    origin: "https://ast-ide.vercel.app",
   })
 );
 config();
