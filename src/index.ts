@@ -12,9 +12,10 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173", process.env.CLIENT_URL!],
+    origin: ["http://localhost:5173", "https://ast-ide.vercel.app/"],
   })
 );
+console.log("Allowed Client URL:", process.env.CLIENT_URL);
 config();
 
 app.use("/compiler", compilerRouter);

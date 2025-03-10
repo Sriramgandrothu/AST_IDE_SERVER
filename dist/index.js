@@ -15,7 +15,7 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
     credentials: true,
-    origin: ["http://localhost:5173", process.env.CLIENT_URL],
+    origin: ["http://localhost:5173", "https://ast-ide.vercel.app/"],
 }));
 (0, dotenv_1.config)();
 app.use("/compiler", compilerRouter_1.compilerRouter);
