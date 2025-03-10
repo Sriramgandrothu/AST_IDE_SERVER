@@ -7,6 +7,7 @@ exports.verifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verifyToken = async (req, res, next) => {
     const token = req.headers.token;
+    console.log(token, req.headers);
     if (!token) {
         return res.status(401).send({ message: "You are unauthorized." });
     }

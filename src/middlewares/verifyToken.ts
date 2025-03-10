@@ -11,7 +11,7 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   const token = req.headers.token as string;
-
+  console.log(token, req.headers);
   if (!token) {
     return res.status(401).send({ message: "You are unauthorized." });
   }
