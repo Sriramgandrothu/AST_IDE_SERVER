@@ -19,7 +19,7 @@ app.use(
 config();
 
 app.use("/compiler",verifyToken, compilerRouter);
-app.use("/user",verifyToken, userRouter);
+app.use("/user", userRouter);
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "OK", message: "Server is running smoothly" });
 });

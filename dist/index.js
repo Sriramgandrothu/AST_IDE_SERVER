@@ -16,11 +16,11 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
     credentials: true,
-    origin: ["http://localhost:5173", "https://ast-ide.vercel.app/"],
+    origin: ["http://localhost:5173", "https://ast-ide.vercel.app"],
 }));
 (0, dotenv_1.config)();
 app.use("/compiler", verifyToken_1.verifyToken, compilerRouter_1.compilerRouter);
-app.use("/user", verifyToken_1.verifyToken, userRouter_1.userRouter);
+app.use("/user", userRouter_1.userRouter);
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "OK", message: "Server is running smoothly" });
 });
