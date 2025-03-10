@@ -14,4 +14,4 @@ userRouter.post("/login", login);
 userRouter.post("/logout", logout);
 
 userRouter.get("/user-details", verifyToken, userDetails);
-userRouter.get("/my-codes", verifyToken, getMyCodes);
+userRouter.get("/my-codes", getMyCodes);
